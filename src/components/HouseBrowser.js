@@ -1,18 +1,19 @@
 // @flow
 
-import {Icon, Menu, Table} from "semantic-ui-react";
+import { Icon, Menu, Table } from "semantic-ui-react";
 import React from "react";
-import type {House} from "../types";
-import {isHouseEqualTo} from "../types";
+import type { House } from "../types";
+import { isHouseEqualTo } from "../types";
 
-const HouseRow = ({house, onSelectHouse, isSelected}) => (
+const HouseRow = ({ house, onSelectHouse, isSelected }) => (
     <Table.Row onClick={onSelectHouse} active={isSelected}>
         <Table.Cell>{house.name}</Table.Cell>
         <Table.Cell>{house.region}</Table.Cell>
     </Table.Row>
 );
 
-const isHouseSelected = (currentHouse, selectedHouse) => isHouseEqualTo(currentHouse, selectedHouse);
+const isHouseSelected = (currentHouse, selectedHouse) =>
+    isHouseEqualTo(currentHouse, selectedHouse);
 
 type Props = {
     houses: Array<House>,
@@ -20,7 +21,7 @@ type Props = {
     onBack: () => any,
     onForward: () => any,
     onSelectHouse: (house: House) => any
-}
+};
 
 const HouseBrowser = (props: Props) => (
     <Table celled>
@@ -32,22 +33,26 @@ const HouseBrowser = (props: Props) => (
         </Table.Header>
 
         <Table.Body>
-            {props.houses.map(house => <HouseRow key={house.url}
-                                                 house={house}
-                                                 isSelected={isHouseSelected(house, props.selectedHouse)}
-                                                 onSelectHouse={() => props.onSelectHouse(house)}/>)}
+            {props.houses.map((house) => (
+                <HouseRow
+                    key={house.url}
+                    house={house}
+                    isSelected={isHouseSelected(house, props.selectedHouse)}
+                    onSelectHouse={() => props.onSelectHouse(house)}
+                />
+            ))}
         </Table.Body>
 
         <Table.Footer>
             <Table.Row>
-                <Table.HeaderCell colSpan='3'>
-                    <Menu floated='right' pagination>
-                        <Menu.Item as='a' icon onClick={props.onBack}>
-                            <Icon name='chevron left'/>
+                <Table.HeaderCell colSpan="3">
+                    <Menu floated="right" pagination>
+                        <Menu.Item as="a" icon onClick={props.onBack}>
+                            <Icon name="chevron left" />
                         </Menu.Item>
 
-                        <Menu.Item as='a' icon onClick={props.onForward}>
-                            <Icon name='chevron right'/>
+                        <Menu.Item as="a" icon onClick={props.onForward}>
+                            <Icon name="chevron right" />
                         </Menu.Item>
                     </Menu>
                 </Table.HeaderCell>
