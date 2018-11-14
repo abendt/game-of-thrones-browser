@@ -4,6 +4,9 @@ import { Icon, Menu, Table } from "semantic-ui-react";
 import React from "react";
 import type { House } from "../types";
 import { isHouseEqualTo } from "../types";
+import type { State } from "../store/state";
+import * as actions from "../store/actions";
+import { connect } from "react-redux";
 
 const HouseRow = ({ house, onSelectHouse, isSelected }) => (
     <Table.Row onClick={onSelectHouse} active={isSelected}>
@@ -61,4 +64,20 @@ const HouseBrowser = (props: Props) => (
     </Table>
 );
 
-export default HouseBrowser;
+const mapStoreToProps = (store: State) => ({
+    houses: store.houses,
+    selectedHouse: store.selectedHouse
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    onBack: () => dispatch(actions.requestPageBackward()),
+    onForward: () => dispatch(actions.requestPageForward()),
+    onSelectHouse: (house: House) => dispatch(actions.requestSelectHouse(house))
+});
+
+const ConnectedBrowser = connect(
+    mapStoreToProps,
+    mapDispatchToProps
+)(HouseBrowser);
+
+export default ConnectedBrowser;

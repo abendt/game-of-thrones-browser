@@ -1,100 +1,73 @@
 // @flow
 
-import React, {Component} from 'react';
-import {Grid, Header, Image} from 'semantic-ui-react'
+import React, {Component} from "react";
+import {Dimmer, Grid, Header, Image, Loader} from "semantic-ui-react";
 import HouseBrowser from "./components/HouseBrowser";
-import loadHouses, {isLastPage} from "./api-client";
 import HouseDetails from "./components/HouseDetails";
 import type {House} from "./types";
-import {isHouseEqualTo} from "./types";
+import * as actions from "./store/actions";
+import connect from "react-redux/es/connect/connect";
+import type {State} from "./store/state";
 
-type Props = {}
-
-type State = {
-    page: number,
+type Props = {
+    currentPage: number,
     houses: Array<House>,
-    selectedHouse: ?House
-}
+    isRequestActive: boolean,
+    loadPage: () => any
+};
 
-const Loading = () => (<Grid.Row>
-    <Grid.Column>
-        <Image src="logo.png"/>
-    </Grid.Column>
-</Grid.Row>);
+const SplashScreen = () => (
+    <Grid.Row>
+        <Grid.Column>
+            <Image src="logo.png"/>
+        </Grid.Column>
+    </Grid.Row>
+);
 
-class App extends Component<Props, State> {
+const Loading = () => (
+    <Dimmer active inverted>
+        <Loader inverted>Loading</Loader>
+    </Dimmer>
+);
 
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            page: 1,
-            houses: [],
-            selectedHouse: null
-        };
-    }
-
-    navivateForward = () => {
-        const currentPage = this.state.page;
-
-        if (!isLastPage(this.state.houses)) {
-            this.loadPage(currentPage + 1);
-        }
-    };
-
-    navigateBackward = () => {
-        const currentPage = this.state.page;
-
-        if (currentPage > 1) {
-            this.loadPage(currentPage - 1);
-        }
-    };
-
-    loadPage = (page: number) => loadHouses(page).then(houses => this.setState({page, houses}));
-
-    selectHouse = (house: House) => {
-        const currentSelection = this.state.selectedHouse;
-
-        if (isHouseEqualTo(house, currentSelection)) {
-            this.setState({selectedHouse: null});
-        } else {
-            this.setState({selectedHouse: house});
-        }
-    };
+class App extends Component<Props> {
 
     componentDidMount() {
-        this.loadPage(1);
+        setTimeout(() => this.props.loadPage(), 1000);
     }
 
     render() {
-        if (this.state.houses.length === 0) {
-            return <Loading/>
+        if (this.props.houses.length === 0) {
+            return <SplashScreen/>;
         }
 
-        const selectedHouse = this.state.selectedHouse;
-
         return (
-            <Grid container style={{padding: '5em 0em'}}>
+            <Grid container style={{padding: "5em 0em"}}>
+
                 <Grid.Row>
                     <Grid.Column>
-                        <Header as='h1' dividing>
-                            browse Game of Throne Houses (page {this.state.page})</Header>
+                        <Header as="h1" dividing>
+                            browse Game of Throne Houses (page
+                            {this.props.currentPage})
+                        </Header>
+                    </Grid.Column>
+                </Grid.Row>
+
+                <Grid.Row>
+                    <Grid.Column floated="right">
+                        {this.props.isRequestActive && <Loading/>}
                     </Grid.Column>
                 </Grid.Row>
 
                 <Grid.Row>
                     <Grid.Column>
-                        <HouseBrowser houses={this.state.houses}
-                                      selectedHouse={this.state.selectedHouse}
-                                      onForward={this.navivateForward}
-                                      onBack={this.navigateBackward}
-                                      onSelectHouse={this.selectHouse}/>
+                        <HouseBrowser/>
                     </Grid.Column>
                 </Grid.Row>
 
                 <Grid.Row>
                     <Grid.Column>
-                        {selectedHouse != null && <HouseDetails house={selectedHouse}/>}
+                        <HouseDetails/>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
@@ -102,4 +75,19 @@ class App extends Component<Props, State> {
     }
 }
 
-export default App;
+const mapStoreToProps = (store: State) => ({
+    currentPage: store.currentPage,
+    houses: store.houses,
+    isRequestActive: store.activeRequest
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    loadPage: () => dispatch(actions.requestLoadHouses(1))
+});
+
+const ConnectedApp = connect(
+    mapStoreToProps,
+    mapDispatchToProps
+)(App);
+
+export default ConnectedApp;
