@@ -2,7 +2,7 @@
 
 import {List} from "semantic-ui-react";
 import React from "react";
-import type {House} from "./App";
+import type {House} from "../types";
 
 type Props = {
     house: House

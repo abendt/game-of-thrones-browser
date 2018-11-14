@@ -1,5 +1,5 @@
 {
-  "name": "got",
+  "name": "game-of-thrones-browser",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -27,6 +27,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "axios-mock-adapter": "^1.15.0",
     "flow-bin": "^0.86.0"
   }
 }

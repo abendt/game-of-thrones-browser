@@ -1,7 +1,7 @@
 // @flow
 
 import axios from "axios";
-import type {House} from "../App";
+import type {House} from "../types";
 
 const pageSize = 10;
 

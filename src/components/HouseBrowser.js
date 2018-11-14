@@ -2,7 +2,8 @@
 
 import {Icon, Menu, Table} from "semantic-ui-react";
 import React from "react";
-import type {House} from "./App";
+import type {House} from "../types";
+import {isHouseEqualTo} from "../types";
 
 const HouseRow = ({house, onSelectHouse, isSelected}) => (
     <Table.Row onClick={onSelectHouse} active={isSelected}>
@@ -11,7 +12,7 @@ const HouseRow = ({house, onSelectHouse, isSelected}) => (
     </Table.Row>
 );
 
-const isHouseSelected = (currentHouse, selectedHouse) => selectedHouse != null && (currentHouse.url === selectedHouse.url);
+const isHouseSelected = (currentHouse, selectedHouse) => isHouseEqualTo(currentHouse, selectedHouse);
 
 type Props = {
     houses: Array<House>,
@@ -21,7 +22,7 @@ type Props = {
     onSelectHouse: (house: House) => any
 }
 
-const HouseTable = (props: Props) => (
+const HouseBrowser = (props: Props) => (
     <Table celled>
         <Table.Header>
             <Table.Row>
@@ -55,4 +56,4 @@ const HouseTable = (props: Props) => (
     </Table>
 );
 
-export default HouseTable;
+export default HouseBrowser;

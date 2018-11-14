@@ -2,18 +2,11 @@
 
 import React, {Component} from 'react';
 import {Grid, Header, Image} from 'semantic-ui-react'
-import HouseTable from "./HouseTable";
+import HouseBrowser from "./components/HouseBrowser";
 import loadHouses, {isLastPage} from "./api-client";
-import HouseDetails from "./HouseDetails";
-
-export type House = {
-    url: string,
-    name: string,
-    region: string,
-    coatOfArms: string,
-    words: string,
-    titles: Array<string>
-}
+import HouseDetails from "./components/HouseDetails";
+import type {House} from "./types";
+import {isHouseEqualTo} from "./types";
 
 type Props = {}
 
@@ -59,19 +52,19 @@ class App extends Component<Props, State> {
 
     loadPage = (page: number) => loadHouses(page).then(houses => this.setState({page, houses}));
 
-    componentDidMount() {
-        this.loadPage(1);
-    }
-
     selectHouse = (house: House) => {
         const currentSelection = this.state.selectedHouse;
 
-        if (currentSelection != null && currentSelection.url === house.url) {
+        if (isHouseEqualTo(house, currentSelection)) {
             this.setState({selectedHouse: null});
         } else {
             this.setState({selectedHouse: house});
         }
     };
+
+    componentDidMount() {
+        this.loadPage(1);
+    }
 
     render() {
         if (this.state.houses.length === 0) {
@@ -91,11 +84,11 @@ class App extends Component<Props, State> {
 
                 <Grid.Row>
                     <Grid.Column>
-                        <HouseTable houses={this.state.houses}
-                                    selectedHouse={this.state.selectedHouse}
-                                    onForward={this.navivateForward}
-                                    onBack={this.navigateBackward}
-                                    onSelectHouse={this.selectHouse}/>
+                        <HouseBrowser houses={this.state.houses}
+                                      selectedHouse={this.state.selectedHouse}
+                                      onForward={this.navivateForward}
+                                      onBack={this.navigateBackward}
+                                      onSelectHouse={this.selectHouse}/>
                     </Grid.Column>
                 </Grid.Row>
 
