@@ -5,6 +5,8 @@ import type { House } from "../types";
 import { ThunkAction } from "redux-thunk";
 import type { State } from "./state";
 
+// see https://flow.org/en/docs/react/redux/ for an explanation how to use Flow types with Redux
+
 type SelectHouse = {
     type: "SELECT_HOUSE",
     house: House
@@ -20,6 +22,8 @@ type LoadHousesFulfilled = {
 
 export type ReducerAction = LoadHousesFulfilled | SelectHouse;
 
+// actions with a promise payload are handled by the promise middleware https://github.com/pburtchaell/redux-promise-middleware
+
 type LoadHousesAction = {
     type: string,
     payload: Promise<any>,
@@ -27,6 +31,8 @@ type LoadHousesAction = {
         page: number
     }
 };
+
+// Action creators
 
 export const requestLoadHouses = (page: number): LoadHousesAction => ({
     type: "LOAD_HOUSES",

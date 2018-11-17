@@ -3,8 +3,8 @@
 import {isHouseEqualTo} from "./types";
 import type {House} from "./types";
 
-const givenHouse = (url: string): House => ({
-    url,
+const givenHouse = (withUrl: string): House => ({
+    url: withUrl,
     name: "House Algood",
     region: "The Westerlands",
     coatOfArms: "",
@@ -20,7 +20,7 @@ describe("type", () => {
             expect(isHouseEqualTo(givenHouse("url1"), givenHouse("url1"))).toBeTruthy()
         });
 
-        it("two houses are equal when the url is not equal", () => {
+        it("two houses are not equal when the url is not equal", () => {
             expect(isHouseEqualTo(givenHouse("url1"), givenHouse("url2"))).toBeFalsy()
         });
 
