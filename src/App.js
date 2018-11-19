@@ -1,13 +1,13 @@
 // @flow
 
-import React, {Component} from "react";
-import {Dimmer, Grid, Header, Image, Loader} from "semantic-ui-react";
+import React, { Component } from "react";
+import { Dimmer, Grid, Header, Image, Loader } from "semantic-ui-react";
 import HouseBrowser from "./components/HouseBrowser";
 import HouseDetails from "./components/HouseDetails";
-import type {House} from "./types";
+import type { House } from "./types";
 import * as actions from "./store/actions";
 import connect from "react-redux/es/connect/connect";
-import type {State} from "./store/state";
+import type { State } from "./store/state";
 
 type Props = {
     currentPage: number,
@@ -19,7 +19,7 @@ type Props = {
 const SplashScreen = () => (
     <Grid.Row>
         <Grid.Column>
-            <Image src="logo.png"/>
+            <Image src="logo.png" />
         </Grid.Column>
     </Grid.Row>
 );
@@ -31,23 +31,21 @@ const Loading = () => (
 );
 
 class App extends Component<Props> {
-
     componentDidMount() {
         setTimeout(() => this.props.loadPage(), 1000);
     }
 
     render() {
         if (this.props.houses.length === 0) {
-            return <SplashScreen/>;
+            return <SplashScreen />;
         }
 
         return (
-            <Grid container style={{padding: "5em 0em"}}>
-
+            <Grid container style={{ padding: "5em 0em" }}>
                 <Grid.Row>
                     <Grid.Column>
                         <Header as="h1" dividing>
-                            browse Game of Throne Houses (page
+                            browse Game of Throne Houses (page{" "}
                             {this.props.currentPage})
                         </Header>
                     </Grid.Column>
@@ -55,19 +53,19 @@ class App extends Component<Props> {
 
                 <Grid.Row>
                     <Grid.Column floated="right">
-                        {this.props.isRequestActive && <Loading/>}
+                        {this.props.isRequestActive && <Loading />}
                     </Grid.Column>
                 </Grid.Row>
 
                 <Grid.Row>
                     <Grid.Column>
-                        <HouseBrowser/>
+                        <HouseBrowser />
                     </Grid.Column>
                 </Grid.Row>
 
                 <Grid.Row>
                     <Grid.Column>
-                        <HouseDetails/>
+                        <HouseDetails />
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
