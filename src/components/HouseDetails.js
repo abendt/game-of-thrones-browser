@@ -4,7 +4,7 @@ import {List} from "semantic-ui-react";
 import React from "react";
 import type {House} from "../types";
 import type {State} from "../store/state";
-import connect from "react-redux/es/connect/connect";
+import {connect} from "react-redux";
 
 type Props = {
     house: ?House

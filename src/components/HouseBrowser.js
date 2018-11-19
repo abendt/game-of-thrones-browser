@@ -9,7 +9,7 @@ import * as actions from "../store/actions";
 import { connect } from "react-redux";
 
 const HouseRow = ({ house, onSelectHouse, isSelected }) => (
-    <Table.Row onClick={onSelectHouse} active={isSelected}>
+    <Table.Row onClick={onSelectHouse} active={isSelected} data-it-id="house-row">
         <Table.Cell>{house.name}</Table.Cell>
         <Table.Cell>{house.region}</Table.Cell>
     </Table.Row>
@@ -27,7 +27,7 @@ type Props = {
 };
 
 const HouseBrowser = (props: Props) => (
-    <Table celled>
+    <Table celled data-it-id="house-browser">
         <Table.Header>
             <Table.Row>
                 <Table.HeaderCell>Name</Table.HeaderCell>

@@ -20,7 +20,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "flow": "flow check",
-    "prettier": "prettier --write ./src/**/*.js"
+    "prettier": "prettier --write ./src/**/*.js",
+    "preprotractor": "webdriver-manager update",
+    "protractor": "protractor it/protractor.conf.js",
+    "it": "BROWSER=none start-server-and-test start http://localhost:3000 protractor"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -34,6 +37,9 @@
   "devDependencies": {
     "axios-mock-adapter": "^1.15.0",
     "flow-bin": "^0.86.0",
-    "prettier": "^1.15.2"
+    "prettier": "^1.15.2",
+    "protractor": "^5.4.1",
+    "start-server-and-test": "^1.7.9",
+    "webdriver-manager": "^12.1.0"
   }
 }
